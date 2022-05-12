@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using BusHomework.Specs.Drivers;
+using NUnit.Framework;
 using TechTalk.SpecFlow;
 
 namespace BusHomework.Specs.Steps
@@ -21,6 +25,7 @@ namespace BusHomework.Specs.Steps
     [Given("an endpoint for fetching info about a Stop")]
     public void GivenAnEndpointForFetchingInfoAboutAStop()
     {
+      // NOOP
     }
 
     [Given("a call to fetch arrivals at stop (.*)")]
@@ -30,24 +35,34 @@ namespace BusHomework.Specs.Steps
     }
 
     [When("calling at \"(.*)\" for Stop (.*)")]
-    public void WhenCallingAt(string callTime, int stopId)
+    public async Task WhenCallingAt(string callTime, int stopId)
     {
       _scenarioContext[Constants.StopIdKey] = stopId;
-      WhenCallingAt(callTime);
+      await WhenCallingAt(callTime);
+    }
+
+    [When("calling for Stop (.*)")]
+    public async Task WhenCallingForStop(int stopId)
+    {
+      var results = await _stop.GetUpcomingArrivalsFor(stopId);
+      _scenarioContext[Constants.UpcomingArrivalsResultKey] = results;
     }
 
     [When("calling at \"(.*)\"")]
-    public void WhenCallingAt(string callTime)
+    public async Task WhenCallingAt(string callTime)
     {
-      var stopId = _scenarioContext[Constants.StopIdKey];
+      var stopId = (int)_scenarioContext[Constants.StopIdKey];
       _scenarioContext[Constants.CallTimeKey] = callTime;
-      var results = _stop.GetUpcomingArrivalsAt(stopId, callTime);
+      await _stop.SetTime(callTime);
+      await WhenCallingForStop(stopId);
+      await _stop.UnsetTime();
     }
 
     [Then("the Stop endpoint should return exactly two upcoming arrival results")]
     public void ThenTheStopEndpointShouldReturnExactlyTwoUpcomingArrivalResults()
     {
-      _scenarioContext.Pending();
+      var results = (IEnumerable<UpcomingArrival>)_scenarioContext[Constants.UpcomingArrivalsResultKey];
+      Assert.AreEqual(2, results.Count());
     }
 
     [Then("the (.*) should arrive at (.*) and the (.*) should arrive at (.*)")]

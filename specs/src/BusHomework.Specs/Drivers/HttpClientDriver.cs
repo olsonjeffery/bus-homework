@@ -4,7 +4,8 @@ namespace BusHomework.Specs.Drivers
 {
     public class HttpClientDriver
     {
-      public static HttpClient Client = new HttpClient();
+      private static HttpClient _client = new HttpClient();
+      public HttpClient Client { get { return _client; }}
       public HttpClientDriver() {}
     }
 }
