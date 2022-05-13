@@ -5,27 +5,19 @@ namespace BusHomework.Api.Services
   public interface ITimeRepository
   {
     DateTime GetNowTime();
-    void SetTime(DateTime newTime);
-    void UnsetTime();
+    DateTime GetTimeFrom(string timestamp);
   }
 
   public class TimeRepository : ITimeRepository
   {
-    private static DateTime? _optOutTime;
-
     public DateTime GetNowTime()
     {
-      return _optOutTime ?? DateTime.Now;
+      return DateTime.Now.ToUniversalTime();
     }
 
-    public void SetTime(DateTime newTime)
+    public DateTime GetTimeFrom(string timestamp)
     {
-      _optOutTime = newTime;
-    }
-
-    public void UnsetTime()
-    {
-      _optOutTime = null;
+      return DateTime.SpecifyKind(DateTime.Parse(timestamp), DateTimeKind.Utc);
     }
   }
 }

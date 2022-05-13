@@ -11,9 +11,16 @@ Scenario: Describing the Stop endpoint
   When calling for Stop 1
   Then the Stop endpoint should return exactly two upcoming arrival results
 
+Scenario: Calling the Stop endpoint for a specific Call Time
+  Given an endpoint for fetching info about a Stop
+  When calling at "00:01:00" for Stop 1
+  Then the Stop endpoint should return exactly two upcoming arrival results
+  And the Call Time should be "00:01:00"
+
+@newtest
 Scenario: Getting routes visiting a stop
-	Given a call to fetch arrivals at stop <stopId>
-  When calling at <callTime>
+  Given an endpoint for fetching info about a Stop
+  When calling at "<callTime>" for Stop <stopId>
   Then the <nextRouteId> should arrive at <nextTime> and the <secondRouteId> should arrive at <secondTime>
 
   Examples:

@@ -15,11 +15,13 @@ namespace BusHomework.Specs.Steps
 
     private readonly ScenarioContext _scenarioContext;
     private readonly StopDriver _stop;
+    private readonly TimeDriver _time;
 
-    public StopStepDefinitions(ScenarioContext scenarioContext, StopDriver stop)
+    public StopStepDefinitions(ScenarioContext scenarioContext, StopDriver stop, TimeDriver time)
     {
       _scenarioContext = scenarioContext;
       _stop = stop;
+      _time = time;
     }
 
     [Given("an endpoint for fetching info about a Stop")]
@@ -28,17 +30,12 @@ namespace BusHomework.Specs.Steps
       // NOOP
     }
 
-    [Given("a call to fetch arrivals at stop (.*)")]
-    public void ACallToFetchArrivalsAt(int stopId)
-    {
-      _scenarioContext[Constants.StopIdKey] = stopId;
-    }
-
     [When("calling at \"(.*)\" for Stop (.*)")]
-    public async Task WhenCallingAt(string callTime, int stopId)
+    public async Task WhenCallingAtForStop(string callTime, int stopId)
     {
       _scenarioContext[Constants.StopIdKey] = stopId;
-      await WhenCallingAt(callTime);
+      var results = await _stop.GetUpcomingArrivalsFor(stopId, callTime);
+      _scenarioContext[Constants.UpcomingArrivalsResultKey] = results;
     }
 
     [When("calling for Stop (.*)")]
@@ -48,27 +45,30 @@ namespace BusHomework.Specs.Steps
       _scenarioContext[Constants.UpcomingArrivalsResultKey] = results;
     }
 
-    [When("calling at \"(.*)\"")]
-    public async Task WhenCallingAt(string callTime)
-    {
-      var stopId = (int)_scenarioContext[Constants.StopIdKey];
-      _scenarioContext[Constants.CallTimeKey] = callTime;
-      await _stop.SetTime(callTime);
-      await WhenCallingForStop(stopId);
-      await _stop.UnsetTime();
-    }
-
     [Then("the Stop endpoint should return exactly two upcoming arrival results")]
     public void ThenTheStopEndpointShouldReturnExactlyTwoUpcomingArrivalResults()
     {
-      var results = (IEnumerable<UpcomingArrival>)_scenarioContext[Constants.UpcomingArrivalsResultKey];
-      Assert.AreEqual(2, results.Count());
+      var results = (StopEndpointResult)_scenarioContext[Constants.UpcomingArrivalsResultKey];
+      Assert.AreEqual(2, results.UpcomingArrivals.Count());
     }
 
     [Then("the (.*) should arrive at (.*) and the (.*) should arrive at (.*)")]
     public void ThenTheShouldArriveAtAndTheShouldArriveAt(int nextRouteId, string nextTime, int secondRouteId, string secondTime)
     {
-      _scenarioContext.Pending();
+      var results = (StopEndpointResult)_scenarioContext[Constants.UpcomingArrivalsResultKey];
+
+      Assert.AreEqual(nextRouteId, results.UpcomingArrivals.First().RouteId);
+      Assert.AreEqual(nextTime, results.UpcomingArrivals.First().ArrivalTime.Split("T")[1]);
+
+      Assert.AreEqual(secondRouteId, results.UpcomingArrivals.ElementAt(1).RouteId);
+      Assert.AreEqual(secondTime, results.UpcomingArrivals.ElementAt(1).ArrivalTime.Split("T")[1]);
+    }
+
+    [Then("the Call Time should be \"(.*)\"")]
+    public void ThenTheCallTimeShouldBe(string callTime)
+    {
+      var results = (StopEndpointResult)_scenarioContext[Constants.UpcomingArrivalsResultKey];
+      Assert.AreEqual(callTime, results.CallTimestamp.Split("T")[1]);
     }
   }
 }

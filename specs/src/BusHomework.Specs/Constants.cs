@@ -1,3 +1,5 @@
+using System;
+
 namespace BusHomework.Specs
 {
   public class Constants
@@ -7,5 +9,6 @@ namespace BusHomework.Specs
     public const string UpcomingArrivalsResultKey = "UpcomingArrivalsResultKey";
     public const string AppSettingsFilename = "appSettings.Specs.json";
     public const string ApiEndpointUrlAppSettingsPath = "BusHomework:URLs:api";
+    public const string SendableTimestampFormatString = "yyyy-M-dTHH:mm:ss";
   }
 }
