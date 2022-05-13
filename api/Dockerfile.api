@@ -1,0 +1,30 @@
+# https://hub.docker.com/_/microsoft-dotnet
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /source
+
+ARG PROJ=TIL.WebApi
+
+# copy csproj and restore as distinct layers
+COPY . .
+RUN dotnet restore -r linux-musl-x64
+
+# build app
+WORKDIR /source/src/BusHomework.Api
+RUN dotnet publish -c Debug -o /app -f net6.0 -r linux-musl-x64 --self-contained false -r /p:EnvironmentName=Development
+
+# final stage/image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine-amd64
+WORKDIR /app
+COPY --from=build /app ./
+
+# See: https://github.com/dotnet/announcements/issues/20
+# Uncomment to enable globalization APIs (or delete)
+#ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+#RUN apk add --no-cache icu-libs
+#ENV LC_ALL=en_US.UTF-8
+#ENV LANG=en_US.UTF-8
+ENV EnvironmentName=Development
+ENV ASPNETCORE_URLS=http://+:9999
+ENV TZ=Americas/Chicago
+
+ENTRYPOINT ["./BusHomework.Api"]
