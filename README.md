@@ -17,7 +17,7 @@ Jeffery Olson (I will otherwise avoid switching between 3rd and 1st person) is t
 
 1. You can bring up the actual system to use live or regenerate living docs against by running `docker-compose up --detach`, after which the runtime components can be evaluated
 2. To use the site, point your local browser at `http://bus-homework.example` (assuming you are browsing on the same machine that is running, if not then some `/etc/hosts` entries (or Windows analog) may be needed)
-3. Optionally at any time a live system is up, if you want to regenerate the [SpecFlow-generated LivingDoc.html file](https://specflow.org/tools/living-doc/), run the `regen-living-docs.[sh|ps1]` file (preferrably from within a shell that is `cd`'d into the `/specs` folder of this repository; the windows version will spawn a chrome browser, haven't tested on a linux VM yet)
+3. Optionally at any time a live system is up, if you want to regenerate the [SpecFlow-generated LivingDoc.html file](https://specflow.org/tools/living-doc/), run the `regen-living-docs.[sh|ps1]` file (preferrably from within a shell that is `cd`'d into the `/specs` folder of this repository; the powershell version will spawn a chrome browser)
 
 Enjoy!
 
@@ -63,5 +63,6 @@ If the above steps have conflicts with existing machine setup or aren't availabl
   - All runtime components need to be updated to handle sessions, tokens, etc
   - It creates the need for an additional layer of test support infrastructure in the specs for token+session management; This is neccesary in any project that would be "production-ready", but is ommited for the sake of brevity
 * The second thing would be accessibility concerns, handled more explicitly; for the purposes of this homework the `webapp` is reasonably screen-reader friendly; The way it does updates should be screen reader friendly, as well
+* Logging, telemetry, perf metrics, etc
 * TLS+SSL; encryption of internal traffic from the `gateway` component to it's internal peers; all stuff that would hopefully be dealt-with within a Kubernetes install
 * It would be nice to push the `LivingDoc.html` creation into a docker-based process that emits the file as a side-effect, but otherwise leaves in no side-effects (and makes the `dotnet`/SpecFlow dependencies go away)

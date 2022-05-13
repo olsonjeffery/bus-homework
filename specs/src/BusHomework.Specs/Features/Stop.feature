@@ -8,7 +8,7 @@ Feature: Stop
 
 Scenario: Describing the Stop endpoint
   Given an endpoint for fetching info about a Stop
-  When calling at "00:00:00" for Stop 1
+  When calling for Stop 1
   Then the Stop endpoint should return exactly two upcoming arrival results
 
 Scenario: Getting routes visiting a stop
@@ -23,6 +23,10 @@ Scenario: Getting routes visiting a stop
 Scenario: Invalid stopId inputs to the Stop endpoint
   Anything outside of 1-10 is a no-go
 
+  Given scenario is pending
+
 Scenario: Invalid callTime inputs to the Stop endpoint
+  Given scenario is pending
 
 Scenario: Stop endpoint returns arrival times in UTC timezone offset
+  Given scenario is pending

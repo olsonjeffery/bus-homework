@@ -1,6 +1,11 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using BusHomework.Api.Endpoints;
+using BusHomework.Api.Infra;
+using Microsoft.AspNetCore.Builder;
 
-app.MapGet("/", () => "Hello World!");
+var builder = WebApplication.CreateBuilder(args);
+IocSetup.ConfigureServices(builder.Services, builder.Configuration);
+
+var app = builder.Build();
+app.MapGet("/stop/{stopId}", Stop.DoRoute);
 
 app.Run();
