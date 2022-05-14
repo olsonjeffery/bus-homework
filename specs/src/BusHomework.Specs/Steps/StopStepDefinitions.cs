@@ -45,23 +45,25 @@ namespace BusHomework.Specs.Steps
       _scenarioContext[Constants.UpcomingArrivalsResultKey] = results;
     }
 
-    [Then("the Stop endpoint should return exactly two upcoming arrival results")]
-    public void ThenTheStopEndpointShouldReturnExactlyTwoUpcomingArrivalResults()
+    [Then("the Stop endpoint should return exactly (.*) upcoming arrival results")]
+    public void ThenTheStopEndpointShouldReturnExactlyTwoUpcomingArrivalResults(int resultsCount)
     {
       var results = (StopEndpointResult)_scenarioContext[Constants.UpcomingArrivalsResultKey];
-      Assert.AreEqual(2, results.UpcomingArrivals.Count());
+      Assert.AreEqual(resultsCount, results.UpcomingArrivals.Count());
     }
 
-    [Then("the (.*) should arrive at (.*) and the (.*) should arrive at (.*)")]
-    public void ThenTheShouldArriveAtAndTheShouldArriveAt(int nextRouteId, string nextTime, int secondRouteId, string secondTime)
+
+    [Then("the (.*) should arrive at (.*) and at (.*)")]
+    public void ThenTheShouldArriveAtAndTheShouldArriveAt(int routeId, string nextTime, string secondTime)
     {
       var results = (StopEndpointResult)_scenarioContext[Constants.UpcomingArrivalsResultKey];
 
-      Assert.AreEqual(nextRouteId, results.UpcomingArrivals.First().RouteId);
-      Assert.AreEqual(nextTime, results.UpcomingArrivals.First().ArrivalTime.Split("T")[1]);
+      var matchingArrivals = results.UpcomingArrivals.Where(x=>x.RouteId == routeId).OrderBy(x=>x.ArrivalTime);
 
-      Assert.AreEqual(secondRouteId, results.UpcomingArrivals.ElementAt(1).RouteId);
-      Assert.AreEqual(secondTime, results.UpcomingArrivals.ElementAt(1).ArrivalTime.Split("T")[1]);
+      Assert.AreEqual(routeId, matchingArrivals.First().RouteId);
+      Assert.AreEqual(nextTime, matchingArrivals.First().ArrivalTime.Split("T")[1]);
+      Assert.AreEqual(routeId, matchingArrivals.ElementAt(1).RouteId);
+      Assert.AreEqual(secondTime, matchingArrivals.ElementAt(1).ArrivalTime.Split("T")[1]);
     }
 
     [Then("the Call Time should be \"(.*)\"")]

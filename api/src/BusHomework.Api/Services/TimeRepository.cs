@@ -12,7 +12,7 @@ namespace BusHomework.Api.Services
   {
     public DateTime GetNowTime()
     {
-      return DateTime.Now.ToUniversalTime();
+      return DateTime.Now;
     }
 
     public DateTime GetTimeFrom(string timestamp)
