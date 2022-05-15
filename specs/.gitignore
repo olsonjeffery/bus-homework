@@ -1,0 +1,2 @@
+# these folders appear to get added when building on linux; don't pull them in
+SpecFlow
