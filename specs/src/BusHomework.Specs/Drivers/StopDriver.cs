@@ -18,15 +18,15 @@ namespace BusHomework.Specs.Drivers
       _time = time;
     }
 
-    public async Task<StopEndpointResult> GetUpcomingArrivalsFor(int stopId)
+    public async Task<StopEndpointResult> GetUpcomingArrivalsFor(string stopId)
     {
       var stopUrl = _url.GetApiEndpointUrl($"/stop/{stopId}");
       return await _http.GetAndDeserialize<StopEndpointResult>(stopUrl);
     }
 
-    public async Task<StopEndpointResult> GetUpcomingArrivalsFor(int stopId, string callTime)
+    public async Task<StopEndpointResult> GetUpcomingArrivalsFor(string stopId, string callTime)
     {
-      var timestamp = _time.GetTimestampStringFromCallTime(callTime);
+      var timestamp = callTime;
       var stopUrl = _url.GetApiEndpointUrl($"/stop/{stopId}/time/{callTime}");
       return await _http.GetAndDeserialize<StopEndpointResult>(stopUrl);
     }
@@ -34,13 +34,13 @@ namespace BusHomework.Specs.Drivers
 
   public class StopEndpointResult
   {
-    public IEnumerable<UpcomingArrival> UpcomingArrivals {get;set;}
-    public string CallTimestamp {get;set;}
+    public IEnumerable<UpcomingArrival> UpcomingArrivals {get;set;} = new UpcomingArrival[0];
+    public string CallTimestamp {get;set;} = "";
 
   }
   public class UpcomingArrival
   {
     public int RouteId {get;set;}
-    public string ArrivalTime {get;set;}
+    public string ArrivalTime {get;set;} = "";
   }
 }

@@ -1,4 +1,5 @@
 Feature: Stop
+As a transit service provider, we would like to privder an API to our org's systems, so that riders can access information for their benefit
 
 - There are 10 bus stops (Stops 1 - 10)
 - Each stop is serviced by three routes: Routes 1, 2, and 3.
@@ -33,10 +34,28 @@ Scenario: Getting routes visiting a stop
 Scenario: Invalid stopId inputs to the Stop endpoint
   Anything outside of 1-10 is a no-go
 
-  Given scenario is pending
+  Given an endpoint for fetching info about a Stop
+  When calling at "00:00:00" for Stop <stopId>
+  Then an error should have occurred
+  Then the http call to the api should fail
 
+  Examples:
+    | stopId | comment                    |
+    | -1     | INVALID: not in 1-10 range |
+    | 0      | INVALID: not in 1-10 range |
+    | 11     | INVALID: ...               |
+    | 9999999999999999999999999999      | int32 overflow                           |
+
+@debug
 Scenario: Invalid callTime inputs to the Stop endpoint
-  Given scenario is pending
+  Given an endpoint for fetching info about a Stop
+  When calling at "<callTime>" for Stop 1
+  Then an error should have occurred
+  Then the http call to the api should fail
 
-Scenario: Stop endpoint returns arrival times in UTC timezone offset
-  Given scenario is pending
+  Examples:
+    | callTime | comment                                                |
+    | -1:00:00 | INVALID: not within 00:00:00 to 23:59:59 range         |
+    | 99:99:99 | INVALID: ...                                           |
+    | 11       | INVALID: not in [0-9][0-9]:[0-9][0-9]:[0-9][0-9] format |
+    | 9999999999999999999999999999 | int32 overflow                     |

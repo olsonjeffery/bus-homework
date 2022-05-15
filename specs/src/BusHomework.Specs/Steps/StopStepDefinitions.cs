@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,12 +17,14 @@ namespace BusHomework.Specs.Steps
     private readonly ScenarioContext _scenarioContext;
     private readonly StopDriver _stop;
     private readonly TimeDriver _time;
+    private readonly OutputDriver _output;
 
-    public StopStepDefinitions(ScenarioContext scenarioContext, StopDriver stop, TimeDriver time)
+    public StopStepDefinitions(ScenarioContext scenarioContext, StopDriver stop, TimeDriver time, OutputDriver output)
     {
       _scenarioContext = scenarioContext;
       _stop = stop;
       _time = time;
+      _output = output;
     }
 
     [Given("an endpoint for fetching info about a Stop")]
@@ -31,15 +34,23 @@ namespace BusHomework.Specs.Steps
     }
 
     [When("calling at \"(.*)\" for Stop (.*)")]
-    public async Task WhenCallingAtForStop(string callTime, int stopId)
+    public async Task WhenCallingAtForStop(string callTime, string stopId)
     {
-      _scenarioContext[Constants.StopIdKey] = stopId;
-      var results = await _stop.GetUpcomingArrivalsFor(stopId, callTime);
-      _scenarioContext[Constants.UpcomingArrivalsResultKey] = results;
+      try
+      {
+        _scenarioContext[Constants.StopIdKey] = stopId;
+        var results = await _stop.GetUpcomingArrivalsFor(stopId, callTime);
+        _scenarioContext[Constants.UpcomingArrivalsResultKey] = results;
+      }
+      catch (Exception e)
+      {
+        _output.Output($"WhenCallAtForStop() call failed with MESSAGE:\n {e.Message}\n\nSTACK TRACE:{e.StackTrace}");
+        _scenarioContext[Constants.LastOperationExceptionKey] = true;
+      }
     }
 
     [When("calling for Stop (.*)")]
-    public async Task WhenCallingForStop(int stopId)
+    public async Task WhenCallingForStop(string stopId)
     {
       var results = await _stop.GetUpcomingArrivalsFor(stopId);
       _scenarioContext[Constants.UpcomingArrivalsResultKey] = results;
@@ -58,7 +69,7 @@ namespace BusHomework.Specs.Steps
     {
       var results = (StopEndpointResult)_scenarioContext[Constants.UpcomingArrivalsResultKey];
 
-      var matchingArrivals = results.UpcomingArrivals.Where(x=>x.RouteId == routeId).OrderBy(x=>x.ArrivalTime);
+      var matchingArrivals = results.UpcomingArrivals.Where(x => x.RouteId == routeId).OrderBy(x => x.ArrivalTime);
 
       Assert.AreEqual(routeId, matchingArrivals.First().RouteId);
       Assert.AreEqual(nextTime, matchingArrivals.First().ArrivalTime.Split("T")[1]);

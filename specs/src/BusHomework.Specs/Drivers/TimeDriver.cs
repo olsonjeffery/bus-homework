@@ -7,8 +7,6 @@ namespace BusHomework.Specs.Drivers
 {
   public class TimeDriver
   {
-    private readonly HttpClientDriver _http;
-    private readonly UrlDriver _url;
 
     public TimeDriver()
     {

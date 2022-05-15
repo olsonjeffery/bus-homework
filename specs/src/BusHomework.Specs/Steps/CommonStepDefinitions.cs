@@ -25,5 +25,23 @@ namespace BusHomework.Specs.Steps
     {
       _scenarioContext.Pending();
     }
+
+    [Then("the http call to the api should fail")]
+    public void ThenTheHttpCallToTheApiShouldFail()
+    {
+      Assert.IsTrue((bool)_scenarioContext[Constants.LastHttpCallFailed]);
+    }
+
+    [Then("an error should have occurred")]
+    public void ThenAnErrorShouldHaveOccurred()
+    {
+      Assert.IsTrue((bool)_scenarioContext[Constants.LastOperationExceptionKey]);
+    }
+
+    [Then("no error should have occurred")]
+    public void ThenNoErrorShouldHaveOccurred()
+    {
+      Assert.IsFalse(_scenarioContext.ContainsKey(Constants.LastOperationExceptionKey));
+    }
   }
 }

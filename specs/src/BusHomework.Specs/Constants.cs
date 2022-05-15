@@ -10,5 +10,11 @@ namespace BusHomework.Specs
     public const string AppSettingsFilename = "appSettings.Specs.json";
     public const string ApiEndpointUrlAppSettingsPath = "BusHomework:URLs:api";
     public const string SendableTimestampFormatString = "yyyy-M-dTHH:mm:ss";
+
+    public const string LastOperationExceptionKey = "LastOperationExceptionKey";
+
+    public const string LastHttpCallFailed = "LastHttpCallFailed";
+
+    public static TimeSpan StandardWaitTimeout = new TimeSpan(0, 0, 15);
   }
 }
