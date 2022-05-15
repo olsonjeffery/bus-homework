@@ -23,10 +23,12 @@ namespace BusHomework.Specs.Drivers.Pages
       }
     }
     private readonly ScenarioContext _ctx;
+    private readonly AppSettingsDriver _appSettings;
 
-    public PageDriver(ScenarioContext ctx)
+    public PageDriver(ScenarioContext ctx, AppSettingsDriver appSettings)
     {
       _ctx = ctx;
+      _appSettings = appSettings;
     }
 
     internal void WaitForAppearanceOf(By elem)

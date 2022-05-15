@@ -1,5 +1,6 @@
 Feature: Client Webapp
 As a transit service provider, we would like to provide a mobile-friendly website for riders, so that they can access information about upcoming arrivals at stops
 
-Scenario: Loading the root page
-  Given scenario is pending
+Scenario: Happy path navigation to landing page
+  Given a visitor navigates to the landing page
+  Then the page title should be "Bus Homework Rider Webapp"

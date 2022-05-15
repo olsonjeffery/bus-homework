@@ -18,12 +18,23 @@ namespace BusHomework.Specs.Drivers
     /// <returns></returns>
     public string GetApiEndpointUrl(string apiPath)
     {
-      if(!apiPath.StartsWith("/"))
-      {
-        throw new Exception("apiPath input must have leading slash to integration with config-stored path");
-      }
       var prefix = _config.Configuration[Constants.ApiEndpointUrlAppSettingsPath];
-      return $"{prefix}{apiPath}";
+      return GetUrlWith(prefix, apiPath);
+    }
+
+    public string GetWebappUrl(string sitePath)
+    {
+      var prefix = _config.Configuration[Constants.SiteUrlAppSettingsPath];
+      return GetUrlWith(prefix, sitePath);
+    }
+
+    private string GetUrlWith(string prefix, string relativePath)
+    {
+      if(!relativePath.StartsWith("/"))
+      {
+        throw new Exception("GetUrlWith(): input must have leading slash to integration with config-stored path");
+      }
+      return $"{prefix}{relativePath}";
     }
   }
 }
