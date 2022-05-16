@@ -14,6 +14,7 @@ import { store } from '../../app/store';
 import { theme } from '../../theme-options';
 
 import { Stop } from '../stop/Stop';
+import { selectLastChecked } from '../stop/stopSlice';
 
 import { TabPanel, a11yProps } from './tab-panel';
 
@@ -24,6 +25,7 @@ const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 
 export function Site() {
   const activeTabValue: number = useAppSelector(selectActiveTab);
+  const lastChecked: string = useAppSelector(selectLastChecked);
 
   return (
     <div className="site-container">
@@ -43,6 +45,7 @@ export function Site() {
         </Tabs>
       </AppBar>
       <TabPanel value={activeTabValue} index={0}>
+        <h6>last checked {lastChecked}</h6>
       </TabPanel>
       <Stop></Stop>
     </div>
