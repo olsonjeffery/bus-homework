@@ -27,6 +27,13 @@ namespace BusHomework.Specs.Steps
       _landingPage.NavigateTo();
     }
 
+    [Then("the AppBar should contain an \"(.*)\" section")]
+    [Then("the AppBar should contain a \"(.*)\" section")]
+    public void ThenTheAppBarShouldContainASection(string expectedTitle)
+    {
+      Assert.AreEqual(1, _landingPage.AppBar.GetAppBarSections().Where(x=>x.ToLowerInvariant() == expectedTitle.ToLowerInvariant()).Count());
+    }
+
     [Then("the page title should be \"(.*)\"")]
     public void ThenThePageTitleShouldBe(string expectedTitle)
     {
