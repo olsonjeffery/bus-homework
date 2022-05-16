@@ -40,13 +40,12 @@ Scenario: Invalid stopId inputs to the Stop endpoint
   Then the http call to the api should fail
 
   Examples:
-    | stopId | comment                    |
-    | -1     | INVALID: not in 1-10 range |
-    | 0      | INVALID: not in 1-10 range |
-    | 11     | INVALID: ...               |
-    | 9999999999999999999999999999      | int32 overflow                           |
+    | stopId                       | comment                    |
+    | -1                           | INVALID: not in 1-10 range |
+    | 0                            | INVALID: not in 1-10 range |
+    | 11                           | INVALID: ...               |
+    | 9999999999999999999999999999 | int32 overflow             |
 
-@debug
 Scenario: Invalid callTime inputs to the Stop endpoint
   Given an endpoint for fetching info about a Stop
   When calling at "<callTime>" for Stop 1
@@ -54,8 +53,8 @@ Scenario: Invalid callTime inputs to the Stop endpoint
   Then the http call to the api should fail
 
   Examples:
-    | callTime | comment                                                |
-    | -1:00:00 | INVALID: not within 00:00:00 to 23:59:59 range         |
-    | 99:99:99 | INVALID: ...                                           |
-    | 11       | INVALID: not in [0-9][0-9]:[0-9][0-9]:[0-9][0-9] format |
-    | 9999999999999999999999999999 | int32 overflow                     |
+    | callTime                     | comment                                                 |
+    | -1:00:00                     | INVALID: not within 00:00:00 to 23:59:59 range          |
+    | 99:99:99                     | INVALID: ...                                            |
+    | 11                           | INVALID: not in [0-9][0-9]:[0-9][0-9]:[0-9][0-9] format |
+    | 9999999999999999999999999999 | int32 overflow                                          |

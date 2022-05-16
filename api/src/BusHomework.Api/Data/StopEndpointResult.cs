@@ -6,5 +6,6 @@ namespace BusHomework.Api.Data
     {
         public IEnumerable<UpcomingArrival> UpcomingArrivals {get;set;} = new UpcomingArrival[0];
         public string CallTimestamp {get;set;} = "";
+        public int StopId {get;set;}
     }
 }

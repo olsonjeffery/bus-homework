@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BusHomework.Api.Data;
 using BusHomework.Api.Services;
@@ -31,7 +32,8 @@ namespace BusHomework.Api.Endpoints
           var retVal = new StopEndpointResult
           {
             CallTimestamp = callTime.ToString(Constants.SendableTimestampFormatString),
-            UpcomingArrivals = result
+            UpcomingArrivals = result.OrderBy(x=>x.ArrivalTime),
+            StopId = stopId
           };
 
           Console.WriteLine($"Input: stopId {stopId} converted time: {callTime.ToString(Constants.SendableTimestampFormatString)} Output: {System.Text.Json.JsonSerializer.Serialize(retVal)}");

@@ -28,6 +28,7 @@ namespace BusHomework.Specs.Steps
     }
 
     [Given("an endpoint for fetching info about a Stop")]
+    [Given("an endpoint for fetching info about Stops")]
     public void GivenAnEndpointForFetchingInfoAboutAStop()
     {
       // NOOP

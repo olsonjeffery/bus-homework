@@ -4,13 +4,14 @@ using OpenQA.Selenium;
 
 namespace BusHomework.Specs.Drivers.Pages
 {
-  public class WebappAppBarDriver
+  public class WebappAppBarPageDriver
   {
     private readonly PageDriver _D;
 
     private By _byMuiTab = By.ClassName("MuiTab-fullWidth");
+    private By _bySelectedMuiTab = By.CssSelector(".MuiTab-fullWidth.Mui-selected");
 
-    public WebappAppBarDriver(PageDriver page)
+    public WebappAppBarPageDriver(PageDriver page)
     {
       _D = page;
     }
@@ -24,6 +25,11 @@ namespace BusHomework.Specs.Drivers.Pages
         sections.Add(tab.Text);
       }
       return sections;
+    }
+
+    public string GetSelectedAppBarSection()
+    {
+      return _D.Driver.FindElement(_bySelectedMuiTab).Text;
     }
   }
 }

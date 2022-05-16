@@ -41,5 +41,13 @@ namespace BusHomework.Specs.Steps
 
       Assert.AreEqual(expectedTitle, actualTitle);
     }
+
+    [Then("the selected AppBar entry should be \"(.*)\"")]
+    public void ThenTheSelectedAppBarEntryShouldBe(string expectedSelectedTab)
+    {
+      var actualSelectedTab = _landingPage.AppBar.GetSelectedAppBarSection();
+
+      Assert.AreEqual(expectedSelectedTab.ToLowerInvariant(), actualSelectedTab.ToLowerInvariant());
+    }
   }
 }

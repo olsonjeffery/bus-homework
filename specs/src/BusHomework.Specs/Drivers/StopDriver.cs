@@ -36,6 +36,7 @@ namespace BusHomework.Specs.Drivers
   {
     public IEnumerable<UpcomingArrival> UpcomingArrivals {get;set;} = new UpcomingArrival[0];
     public string CallTimestamp {get;set;} = "";
+    public int StopId {get;set;}
 
   }
   public class UpcomingArrival

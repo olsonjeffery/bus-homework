@@ -39,23 +39,12 @@ export function Site() {
           variant="fullWidth"
           aria-label="full width tabs"
         >
-          <Tab label="Default" {...a11yProps(0)} />
-          <Tab label="Custom" {...a11yProps(1)} />
-          <Tab label="Advanced" {...a11yProps(2)} />
+          <Tab label="Stops 1 & 2" {...a11yProps(0)} />
         </Tabs>
       </AppBar>
       <TabPanel value={activeTabValue} index={0}>
-
       </TabPanel>
-      <TabPanel value={activeTabValue} index={1}>
-        Custom options go here
-      </TabPanel>
-      <TabPanel value={activeTabValue} index={2}>
-        Advanced options go here
-      </TabPanel>
-      <Box sx={{ border: 1, borderColor: 'divider' }}>
-        <Stop></Stop>
-      </Box>
+      <Stop></Stop>
     </div>
   );
 }

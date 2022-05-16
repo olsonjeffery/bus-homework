@@ -1,9 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+
 import siteReducer from '../features/site/siteSlice';
+import stopReducer from '../features/stop/stopSlice';
 
 export const store = configureStore({
   reducer: {
-    site: siteReducer
+    site: siteReducer,
+    stop: stopReducer,
   },
 });
 
@@ -15,3 +19,5 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+setupListeners(store.dispatch);

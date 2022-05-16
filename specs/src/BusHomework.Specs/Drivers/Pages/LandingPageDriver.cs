@@ -6,19 +6,22 @@ namespace BusHomework.Specs.Drivers.Pages
 {
   public class LandingPageDriver
   {
-    public WebappAppBarDriver AppBar { get { return _appBar; } }
+    public WebappAppBarPageDriver AppBar { get { return _appBar; } }
+    public WebappStopPageDriver Stop { get { return _stop; } }
 
     private readonly PageDriver _D;
     private readonly UrlDriver _url;
-    private readonly WebappAppBarDriver _appBar;
+    private readonly WebappAppBarPageDriver _appBar;
+    private readonly WebappStopPageDriver _stop;
 
     private By _byPageTitle = By.TagName("title");
 
-    public LandingPageDriver(PageDriver page, UrlDriver url, WebappAppBarDriver appBar)
+    public LandingPageDriver(PageDriver page, UrlDriver url, WebappAppBarPageDriver appBar, WebappStopPageDriver stop)
     {
       _D = page;
       _url = url;
       _appBar = appBar;
+      _stop = stop;
     }
 
     public void NavigateTo()

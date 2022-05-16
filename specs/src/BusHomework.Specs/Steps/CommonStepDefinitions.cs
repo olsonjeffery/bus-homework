@@ -26,6 +26,16 @@ namespace BusHomework.Specs.Steps
       _scenarioContext.Pending();
     }
 
+    [Then("the outcome should match (.*)")]
+    public void ThenTheOutcomeShouldMatch(bool isValid)
+    {
+      Assert.AreEqual(_scenarioContext.ContainsKey(Constants.LastOperationExceptionKey), !isValid);
+      if(!isValid)
+      {
+        Assert.IsTrue((bool)_scenarioContext[Constants.LastOperationExceptionKey]);
+      }
+    }
+
     [Then("the http call to the api should fail")]
     public void ThenTheHttpCallToTheApiShouldFail()
     {

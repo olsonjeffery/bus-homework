@@ -7,6 +7,4 @@ Scenario: Happy path navigation to landing page
 
 Scenario: Contents of the top app bar
   Given a visitor navigates to the landing page
-  Then the AppBar should contain a "Default" section
-  And the AppBar should contain a "Custom" section
-  And the AppBar should contain an "Advanced" section
+  Then the AppBar should contain a "Stops 1 & 2" section

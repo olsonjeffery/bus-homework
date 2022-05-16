@@ -68,3 +68,9 @@ If the above steps have conflicts with existing machine setup or aren't availabl
   - Separate from that, we would want to understand the timezones of the clients using the site[/calling api]; if the client sets/sends TZ in the call, then it can be converted in the backend for transport (or all clients receive time in UTC and then make decisions)
 * TLS+SSL; encryption of internal traffic from the `gateway` component to it's internal peers; all stuff that would hopefully be dealt-with within a Kubernetes install
 * It would be nice to push the `LivingDoc.html` creation into a docker-based process that emits the file as a side-effect, but otherwise leaves in no side-effects (and makes the `dotnet`/SpecFlow dependencies go away)
+* Address audit/security issues in npm packages
+* I had originally envisioned the webapp having three distincts modes of interaction; only the first of these is implemented
+    - Default: Shows Stops 1 & 2, as per instructions
+    - Custom: Toggles for Stops 1-10, with the rider/user selecting which to show; as they are toggled it is updated in the UI
+    - Advanced: Same as custom, but expose toggle that switches between specifying a CallTime of "now" (the default for other two modes), or allowing user to specify a callTime in 00:00:00 24-hour time format
+  - Notes: Ran out of time, ran up against additional complexity in Redux app (hard-coded population of two stops on page load with update, vs combining scalar ops into single operation via BFF, how to represent those results streaming through redux, etc)
